@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS zillowtracker.listing (
     daysListed      int,
     created         timestamp,
     content         text,
-    version         int
+    version         int,
 PRIMARY KEY (listingId));
 
 CREATE TABLE IF NOT EXISTS zillowtracker.property (

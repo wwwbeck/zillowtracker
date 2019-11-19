@@ -15,8 +15,8 @@ class ListingRepository {
         try {
             cassandraOperations.insert(listingDao)
         }
-        catch (Exception e){
-
+        catch (Exception e) {
+            "add some loggin"
         }
 
     }

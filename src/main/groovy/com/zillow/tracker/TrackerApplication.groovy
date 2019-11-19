@@ -17,7 +17,4 @@ class TrackerApplication {
     ObjectMapper objectMapper() {
         return new ObjectMapper()
     }
-
-    @Bean
-    CassandraOperations cassandraOperations() {}
 }

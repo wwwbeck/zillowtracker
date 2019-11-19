@@ -12,7 +12,7 @@ class ListingDao {
     @Column
     String address
     @Column
-    String daysListed
+    Integer daysListed
     @Column
     Date created
     @Column

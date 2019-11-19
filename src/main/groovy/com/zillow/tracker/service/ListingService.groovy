@@ -15,9 +15,13 @@ class ListingService {
     @Autowired
     ObjectMapper objectMapper
 
-    Listing processListing(Listing listing) {
+    void persistListing(Listing listing, ListingDao listingDao) {
+        listingRepository.createListing(listingDao)
+    }
+
+    ListingDao buildListingDao(Listing listing) {
         ListingDao listingDao = new ListingDao(
-                listingId: '',
+                listingId: UUID.randomUUID().toString().toUpperCase(),
                 address: listing.address.addressLine1,
                 daysListed: listing.daysListed,
                 created: new Date(),
@@ -25,6 +29,6 @@ class ListingService {
                 rentalPrice: listing.price,
                 version: 1
         )
-        listingRepository.createListing(listingDao)
+        return listingDao
     }
 }
