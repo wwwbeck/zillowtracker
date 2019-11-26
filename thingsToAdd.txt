@@ -1,0 +1,8 @@
+- tests
+- clean up & build up APIs
+- kafka
+- add different types of injection
+- cassandra, cass cache
+- jolt spec
+- MDC logging
+- exception handling

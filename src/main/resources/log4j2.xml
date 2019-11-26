@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Configuration status="DEBUG">
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="LogToFile" fileName="logs/app.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.zillow.tracker" level="debug" additivity="false">
+            <AppenderRef ref="LogToFile"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <Logger name="org.springframework.boot" level="error" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="LogToFile"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Root>
+    </Loggers>
+</Configuration>
+
+<!--<logger name="org.quartz.core" level="info"/>-->
+<!--<logger name="org.springframework" level="info"/>-->
+<!--<logger name="org.springframework.ws.client.MessageTracing.sent" level="trace"/>-->
+<!--<logger name="org.springframework.ws.client.MessageTracing.received" level="trace"/>-->
+<!--<logger name="org.hibernate" level="info"/>-->
+<!--<logger name="org.apache" level="info"/>-->
+<!--<logger name="com.wordnik" level="info"/>-->
+<!--<logger name="org.apache.axis.transport.http.HTTPSender" level="debug"/>-->
+<!--<logger name="org.apache.axis2.transport.http.HTTPSender" level="debug"/>-->
+<!--<logger name="httpclient.wire.content" level="info"/>-->
+<!--<logger name="org.apache.http" level="info"/>-->
+<!--<logger name="net.spy.memcached" level="info"/>-->
+<!--<logger name="com.wordnik" level="debug"/>-->
+<!--<logger name="com.bestbuy.configlib" level="info"/>-->

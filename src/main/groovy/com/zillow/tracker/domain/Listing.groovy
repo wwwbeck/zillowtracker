@@ -7,6 +7,6 @@ class Listing {
     BigDecimal price
     Property property
     Integer daysListed
-    LocalDateTime created
+    Date created
     Integer listingId
 }

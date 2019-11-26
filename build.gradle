@@ -19,12 +19,16 @@ dependencies {
     // cassandra
     implementation group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: cassandraCoreVersion
     implementation group: 'org.springframework.data', name: 'spring-data-cassandra', version: springDataCassandraVersion
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web') {
+        exclude(group: 'org.springframework.boot', module: 'spring-boot-starter-logging')
+    }
 //    implementation 'org.springframework.boot:spring-boot-starter-web' {
 //        exclude(group: 'org.springframework.boot', module: 'spring-boot-starter-logging')
 //    }
     implementation 'org.codehaus.groovy:groovy'
     implementation 'org.springframework.kafka:spring-kafka'
+
+    // Spring boot
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -35,6 +39,12 @@ dependencies {
     // spock
     testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
     testImplementation group: 'org.spockframework', name: 'spock-spring', version: spockVersion
+
+    // async logging
+    compile group: 'com.lmax', name: 'disruptor', version: '3.3.4'
+    // logging
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
 }
 
 test {
