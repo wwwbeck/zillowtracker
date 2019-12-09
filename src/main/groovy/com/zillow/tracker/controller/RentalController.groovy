@@ -3,7 +3,7 @@ package com.zillow.tracker.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.zillow.tracker.dao.ListingDao
 import com.zillow.tracker.domain.Listing
-import com.zillow.tracker.domain.ListingControls
+import com.zillow.tracker.domain.ListingEstate
 import com.zillow.tracker.service.ListingService
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -28,20 +28,22 @@ class RentalController {
     ListingService listingService
 
     @RequestMapping(value = '/listing', method = [RequestMethod.POST], consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
-    ListingControls createListing(@RequestBody(required = true) String listingString) {
-        Listing listing = objectMapper.readValue(listingString, Listing)
+    Listing createListing(@RequestBody(required = true) String listingString) {
+        ListingEstate listing = objectMapper.readValue(listingString, ListingEstate)
         ListingDao listingDao = listingService.buildListingDao(listing)
         listingService.persistListing(listing, listingDao)
-        ListingControls listingControls = listingService.buildControls(listingDao)
+        Listing listingControls = listingService.buildListing(listingDao)
         return listingControls
     }
-    @RequestMapping(value = '/listing', method = [RequestMethod.GET], consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
-    ListingControls getAll(@RequestBody(required = true) String listingString) {
 
+    @RequestMapping(value = '/listing', method = [RequestMethod.GET], consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
+    List<Listing> getListings() {
+        return listingService.getListings()
     }
+
     @RequestMapping(value = '/listing/{listingId}', method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
     ListingDao getListing(@PathVariable(required = true) String listingId) {
-        def listing = listingService.getListing(listingId)
+        ListingDao listing = listingService.getListing(listingId)
         return listing
     }
 

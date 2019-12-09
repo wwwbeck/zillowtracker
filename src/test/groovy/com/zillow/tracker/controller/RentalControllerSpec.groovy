@@ -2,9 +2,8 @@ package com.zillow.tracker.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.zillow.tracker.domain.Address
-import com.zillow.tracker.domain.Listing
+import com.zillow.tracker.domain.ListingEstate
 import com.zillow.tracker.domain.Property
-import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 
 class RentalControllerSpec extends Specification {
@@ -26,16 +25,16 @@ class RentalControllerSpec extends Specification {
     def 'createListings'() {
         given:
             String listingString = 'some string'
-            Listing listing = new Listing(
+            ListingEstate listing = new ListingEstate(
                     address: new Address(state: 'MN', city: 'Minneapolis', addressLine1: '123 First Ave South', addressLine2: 'apt 123'),
                     price: 1200.00,
                     property: new Property(bedrooms: 4, bathrooms: 5, sqft: 9876),
                     daysListed: 5
             )
         when:
-            Listing createdListing = rentalController.createListing(listingString)
+            ListingEstate createdListing = rentalController.createListing(listingString)
         then:
-            1 * objectMapper.readValue(listingString, Listing) >> listing
+            1 * objectMapper.readValue(listingString, ListingEstate) >> listing
         then:
             createdListing == listing
     }

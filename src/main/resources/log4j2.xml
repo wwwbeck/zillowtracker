@@ -25,18 +25,3 @@
         </Root>
     </Loggers>
 </Configuration>
-
-<!--<logger name="org.quartz.core" level="info"/>-->
-<!--<logger name="org.springframework" level="info"/>-->
-<!--<logger name="org.springframework.ws.client.MessageTracing.sent" level="trace"/>-->
-<!--<logger name="org.springframework.ws.client.MessageTracing.received" level="trace"/>-->
-<!--<logger name="org.hibernate" level="info"/>-->
-<!--<logger name="org.apache" level="info"/>-->
-<!--<logger name="com.wordnik" level="info"/>-->
-<!--<logger name="org.apache.axis.transport.http.HTTPSender" level="debug"/>-->
-<!--<logger name="org.apache.axis2.transport.http.HTTPSender" level="debug"/>-->
-<!--<logger name="httpclient.wire.content" level="info"/>-->
-<!--<logger name="org.apache.http" level="info"/>-->
-<!--<logger name="net.spy.memcached" level="info"/>-->
-<!--<logger name="com.wordnik" level="debug"/>-->
-<!--<logger name="com.bestbuy.configlib" level="info"/>-->

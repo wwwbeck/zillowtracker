@@ -1,7 +1,9 @@
 package com.zillow.tracker.repository
 
+import com.datastax.driver.core.querybuilder.QueryBuilder
+import com.datastax.driver.core.querybuilder.Select
 import com.zillow.tracker.dao.ListingDao
-import com.zillow.tracker.domain.Listing
+import com.zillow.tracker.domain.ListingEstate
 import com.zillow.tracker.exception.CassandraException
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,6 +16,11 @@ class ListingRepository {
     @Autowired
     CassandraOperations cassandraOperations
 
+
+    /**
+     * Data Access using CassandraTemplate
+     * @param listingDao
+     */
     void createListing(ListingDao listingDao) {
         try {
             cassandraOperations.insert(listingDao)
@@ -29,16 +36,20 @@ class ListingRepository {
         }
         catch (Exception e) {
             log.error('Failed delete cql operation. ' + e)
+            throw new CassandraException('Failed SELECT operation', e)
         }
     }
 
-    ListingDao getListing(listingId) {
-        try {
-            return cassandraOperations.selectOneById(listingId, ListingDao)
-        }
-        catch (Exception e) {
-            log.error('Failed select cql operation. ' + e)
-            throw new CassandraException('Failed SELECT operation', e)
-        }
+    ListingEstate getListing(listingId) {
+        return cassandraOperations.selectOneById(listingId, ListingEstate)
+    }
+
+    /**
+     * Data Access using QueryBuilder
+     * @return
+     */
+    List<ListingEstate> getListings() {
+        Select select = QueryBuilder.select('listingid', 'address', 'content', 'created', 'dayslisted', 'rentalprice', 'version').from('property_listing')
+        return cassandraOperations.select(select, ListingEstate)
     }
 }

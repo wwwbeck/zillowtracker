@@ -3,11 +3,11 @@ package com.zillow.tracker.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.zillow.tracker.dao.ListingDao
 import com.zillow.tracker.domain.Address
-import com.zillow.tracker.domain.Listing
+import com.zillow.tracker.domain.ListingEstate
 import com.zillow.tracker.repository.ListingRepository
 import spock.lang.Specification
 
-class ListingServiceSpec extends Specification {
+class ListingEstateServiceSpec extends Specification {
     ObjectMapper objectMapper
     ListingRepository listingRepository
     ListingService listingService
@@ -20,7 +20,7 @@ class ListingServiceSpec extends Specification {
 
     def 'persist listing'() {
         given:
-            Listing listing = new Listing(price: 123.12, daysListed: 4, address: new Address(addressLine1: '123 First St. S'))
+            ListingEstate listing = new ListingEstate(price: 123.12, daysListed: 4, address: new Address(addressLine1: '123 First St. S'))
             ListingDao listingDao = new ListingDao(
                     listingId: '',
                     address: listing.address.addressLine1,
@@ -31,7 +31,7 @@ class ListingServiceSpec extends Specification {
                     version: 1
             )
         when:
-            Listing createdListing = listingService.persistListing(listing)
+            ListingEstate createdListing = listingService.persistListing(listing)
         then:
             1 * listingRepository.createListing(listingDao) >> listing
         then:

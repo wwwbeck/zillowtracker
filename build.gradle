@@ -25,7 +25,8 @@ dependencies {
 //    implementation 'org.springframework.boot:spring-boot-starter-web' {
 //        exclude(group: 'org.springframework.boot', module: 'spring-boot-starter-logging')
 //    }
-    implementation 'org.codehaus.groovy:groovy'
+    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.5.4'
+    compile group: 'org.codehaus.groovy', name: 'groovy-json', version: '2.5.4'
     implementation 'org.springframework.kafka:spring-kafka'
 
     // Spring boot
@@ -43,7 +44,7 @@ dependencies {
     // async logging
     compile group: 'com.lmax', name: 'disruptor', version: '3.3.4'
     // logging
-    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+//    compile 'org.springframework.boot:spring-boot-starter-log4j2'
     compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
 }
 

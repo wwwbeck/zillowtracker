@@ -3,7 +3,8 @@ package com.zillow.tracker.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.zillow.tracker.dao.ListingDao
 import com.zillow.tracker.domain.Listing
-import com.zillow.tracker.domain.ListingControls
+import com.zillow.tracker.domain.ListingEstate
+import com.zillow.tracker.domain.TemplateVariable
 import com.zillow.tracker.repository.ListingRepository
 import groovy.json.JsonSlurper
 import groovy.util.logging.Slf4j
@@ -28,11 +29,11 @@ class ListingService {
         this.operationsMap = (new JsonSlurper().parseText(operationsMap)) as Map
     }
 
-    void persistListing(Listing listing, ListingDao listingDao) {
+    void persistListing(ListingEstate listing, ListingDao listingDao) {
         listingRepository.createListing(listingDao)
     }
 
-    ListingDao buildListingDao(Listing listing) {
+    ListingDao buildListingDao(ListingEstate listing) {
         ListingDao listingDao = new ListingDao(
                 listingId: UUID.randomUUID().toString().toUpperCase(),
                 address: listing.address.addressLine1,
@@ -53,7 +54,19 @@ class ListingService {
         return listingRepository.getListing(listingId)
     }
 
-    ListingControls buildControls(ListingDao listingDao) {
+    List<Listing> getListings() {
+        List<Listing> listings = []
+        List<ListingEstate> listingEstates = listingRepository.getListings()
+
+        listingEstates.each {
+            Listing listing = new Listing(listingEstate: it)
+            this.buildOperations(listing)
+            listings.add(listing)
+        }
+        return listings
+    }
+
+    Listing buildListing(ListingDao listingDao) {
         String[] variables
         this.operationsMap.each {
             variables = StringUtils.substringBetween(it.value, '{', '}')
@@ -62,6 +75,34 @@ class ListingService {
 //            TemplateVariable templateVariable = getParamFromObject(listing)
 //            templateVariable.find(listingDao)
 //        }
-        return new ListingControls(listing: listingDao, operations: this.operationsMap)
+        return new Listing(listing: listingDao, operations: this.operationsMap)
+    }
+
+    Listing buildListing(ListingEstate listing) {
+        String[] variables
+        this.operationsMap.each {
+            variables = StringUtils.substringBetween(it.value, '{', '}')
+        }
+//        variables.each {
+//            TemplateVariable templateVariable = getParamFromObject(listing)
+//            templateVariable.find(listingDao)
+//        }
+        return new Listing(listing: listing, operations: this.operationsMap)
+    }
+
+    void buildOperations(Listing listing) {
+        List variables = []
+        this.operationsMap.each {
+            String variable = StringUtils.substringBetween(it.value, '{', '}')
+            if (variable) {
+                TemplateVariable templateVariable = TemplateVariable.from(variable)
+                String foundValue = templateVariable.find(listing)
+                if (foundValue) {
+                    it.value = it.value.replaceAll(/\{$variable\}/, foundValue)
+                }
+                it
+            }
+        }
+        listing.operations = this.operationsMap
     }
 }
